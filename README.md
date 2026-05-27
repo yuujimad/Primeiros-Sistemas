@@ -18,6 +18,19 @@
 
 - Gerenciamento Inteligente de Carga (Load Shedding): Em caso de crise energética, o sistema identifica e sugere o desligamento de subsistemas não essenciais (ex: entretenimento, iluminação) para proteger módulos críticos (oxigênio, pressão, temperatura).
 
+## Como o Sistema Funciona
+
+O funcionamento do sistema é baseado em um ciclo de processamento linear, orquestrado pelo main.py, que simula o monitoramento contínuo da colônia. 
+O ciclo segue quatro etapas rigorosas:
+
+1. Coleta de Dados: O sistema lê o estado atual dos sensores simulados (nível da bateria, força do vento, consumo instantâneo, etc.).
+
+2. Diagnóstico Energético: Calcula-se a diferença matemática entre o que está sendo gerado e o que está sendo consumido. O sistema avalia se a bateria está subindo, descendo, e quanto tempo de autonomia resta.
+
+3. Previsão Inteligente: Os dados de entrada são passados pelos modelos matemáticos de Regressão Linear. O sistema tenta adivinhar o comportamento futuro: "Com o vento atual, quanto vamos gerar?" ou "Considerando a hora atual, qual será o pico de consumo?".
+
+4. Tomada de Ação: O motor de regras cruza todos esses diagnósticos. Se a bateria estiver abaixo de 20% e o consumo estiver acima de 65 kW, o sistema não apenas emite um alerta, mas varre a árvore de prioridades e sugere o corte de energia de setores específicos (como módulos de lazer) para salvar os sistemas de suporte à vida (oxigênio e pressão).
+
 ## Arquitetura e Módulos do Sistema
 
 1. dados_colonia.py
@@ -72,3 +85,58 @@ O ponto de entrada do programa. Ele não possui lógica de negócio complexa, at
 
 - Contém uma função executar_cenario() que permite simular diferentes realidades no ambiente (mudança de clima, crises, falhas ou bonança), injetando novos dados nos sensores e reavaliando toda a cadeia de sobrevivência.
 
+# Exemplo Prático: Entrada e Saída
+
+Para ilustrar o funcionamento, vamos analisar um cenário de Crise Energética simulado pelo sistema.
+
+## A Entrada (Dados dos Sensores)
+
+O sistema recebe uma atualização abrupta no estado da colônia, indicando uma tempestade que bloqueia o sol e reduz os ventos, combinada com baterias quase vazias:
+
+{
+    "energia_reserva_kwh": 15,       # Bateria crítica (15% da capacidade)
+    "geracao_solar_kw": 5,           # Geração muito baixa
+    "geracao_eolica_kw": 3,          # Quase sem vento
+    "consumo_total_kw": 75,          # Consumo altíssimo
+    "previsao_clima": "adverso"      # Clima ruim
+}
+
+## A Saída (Processamento e Decisão)
+
+Após rodar o ciclo de análise, o terminal exibirá um relatório completo detalhando a crise e as ações mitigadoras. 
+O resultado gerado pelo motor será semelhante a este:
+
+============================================================
+  MÓDULO DE TOMADA DE DECISÃO — MOTOR DE REGRAS
+============================================================
+
+  [ENTRADA PROCESSADA]
+    Reserva      : 15.0% (CRÍTICO)
+    Consumo      : 75 kW
+    Saldo        : -67.00 kW
+    Situação     : CRÍTICO
+    Previsão     : ADVERSO
+
+  [AÇÕES GERADAS — 2 regra(s) disparada(s)]
+
+    [1] Nível: CRITICO
+        Motivo : Energia crítica (15.0%) AND consumo alto (75 kW) AND previsão adversa.
+        Ação   : MODO EMERGÊNCIA: desligar todos os sistemas de prioridade 2 e 3 imediatamente.
+
+    [2] Nível: ALTO
+        Motivo : Déficit de 67.0 kW AND bateria baixa (15.0%).
+        Ação   : ALERTA: reduzir consumo. Desligar sistemas de prioridade 3. Monitorar reserva a cada 15 minutos.
+
+  [SISTEMAS SUGERIDOS PARA DESLIGAMENTO]
+    (prioridade ≥ 2 — economia potencial: 37 kW)
+    ├─ agua                      P2    12 kW  —  Bombeamento e purificação de água
+    ├─ iluminacao                P2    10 kW  —  Iluminação geral dos módulos
+    ├─ pesquisa_nao_urgente      P3     6 kW  —  Laboratórios de pesquisa não emergencial
+    ├─ comunicacao               P2     5 kW  —  Sistemas de comunicação interna e externa
+    ├─ entretenimento            P3     4 kW  —  Centros de entretenimento e lazer
+
+  [SISTEMAS PROTEGIDOS — NUNCA DESLIGAR]
+    ✔ oxigenio                  15 kW mantidos
+    ✔ pressao                   10 kW mantidos
+    ✔ temperatura                8 kW mantidos
+============================================================
