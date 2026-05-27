@@ -21,6 +21,7 @@
 ## Arquitetura e Módulos do Sistema
 
 1. dados_colonia.py
+
 Este é o "banco de dados" do sistema. Ele não toma decisões, apenas organiza e fornece acesso às informações.
 
 - Armazena o estado atual dos sensores via estrutura de chave-valor.
@@ -31,39 +32,43 @@ Este é o "banco de dados" do sistema. Ele não toma decisões, apenas organiza 
 
 - Aplica o princípio do encapsulamento, fornecendo funções como obter_estado() para que os outros módulos leiam os dados com segurança.
 
-2. analise_energia.py (A Camada de Diagnóstico)
+2. analise_energia.py
+
 Responsável por comparar a geração atual com a demanda e o nível das baterias.
 
-Calcula o saldo energético atual (positivo ou negativo) e o percentual de cobertura do consumo.
+- Calcula o saldo energético atual (positivo ou negativo) e o percentual de cobertura do consumo.
 
-Avalia a saúde da reserva de energia, classificando a situação das baterias (crítico, baixo, normal, alto) e estimando horas de autonomia.
+- Avalia a saúde da reserva de energia, classificando a situação das baterias (crítico, baixo, normal, alto) e estimando horas de autonomia.
 
-Utiliza funções puras para os cálculos lógicos, separando-os da formatação visual dos relatórios.
+- Utiliza funções puras para os cálculos lógicos, separando-os da formatação visual dos relatórios.
 
-3. previsao.py (A Camada de Inteligência)
-O "oráculo" matemático do sistema. Estima o cenário futuro para embasar decisões.
+3. previsao.py
 
-Implementa o algoritmo de Regressão Linear Simples do zero (método OLS).
+Estima o cenário futuro para embasar decisões.
 
-Aplica o padrão Fit Once, Predict Many: treina os modelos na inicialização usando o histórico de dados_colonia.py e armazena os coeficientes da reta.
+- Implementa o algoritmo de Regressão Linear Simples do zero (método OLS).
 
-Fornece estimativas cruzando os dados atuais (vento atual, hora atual) com o modelo treinado, entregando previsões com métrica de confiabilidade (R²).
+- Aplica o padrão Fit Once, Predict Many: treina os modelos na inicialização usando o histórico de dados_colonia.py e armazena os coeficientes da reta.
 
-4. decisoes.py (O Motor de Regras)
-O "cérebro" reativo da colônia. Recebe os diagnósticos e decide o que deve ser feito.
+- Fornece estimativas cruzando os dados atuais (vento atual, hora atual) com o modelo treinado, entregando previsões com métrica de confiabilidade (R²).
 
-Usa funções booleanas isoladas para avaliar critérios simples (ex: energia_esta_critica(), consumo_esta_alto()).
+4. decisoes.py
 
-Combina essas condições com operadores lógicos (AND / OR) para disparar regras complexas, como o protocolo de emergência.
+Recebe os diagnósticos e decide o que deve ser feito.
 
-Classifica as ações por nível de urgência (CRÍTICO, ALTO, MÉDIO, INFO).
+- Usa funções booleanas isoladas para avaliar critérios simples (ex: energia_esta_critica(), consumo_esta_alto()).
 
-Se necessário, percorre a hierarquia de sistemas e lista exatamente quais subsistemas devem ser desligados (e o quanto isso economizará em kW), poupando sempre a prioridade 1.
+- Combina essas condições com operadores lógicos (AND / OR) para disparar regras complexas, como o protocolo de emergência.
 
-5. main.py (O Orquestrador)
+- Classifica as ações por nível de urgência (CRÍTICO, ALTO, MÉDIO, INFO).
+
+- Se necessário, percorre a hierarquia de sistemas e lista exatamente quais subsistemas devem ser desligados (e o quanto isso economizará em kW), poupando sempre a prioridade 1.
+
+5. main.py
+
 O ponto de entrada do programa. Ele não possui lógica de negócio complexa, atuando como um maestro que chama os outros módulos na ordem correta.
 
-Executa o Ciclo de Análise: Lê dados -> Analisa energia -> Faz previsões -> Toma decisões.
+- Executa o Ciclo de Análise: Lê dados -> Analisa energia -> Faz previsões -> Toma decisões.
 
-Contém uma função executar_cenario() que permite simular diferentes realidades no ambiente (mudança de clima, crises, falhas ou bonança), injetando novos dados nos sensores e reavaliando toda a cadeia de sobrevivência.
+- Contém uma função executar_cenario() que permite simular diferentes realidades no ambiente (mudança de clima, crises, falhas ou bonança), injetando novos dados nos sensores e reavaliando toda a cadeia de sobrevivência.
 
