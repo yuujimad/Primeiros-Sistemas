@@ -33,7 +33,7 @@ O ciclo segue quatro etapas rigorosas:
 
 ## Arquitetura e Módulos do Sistema
 
-1. dados_colonia.py
+1. Arquivo -> dados_colonia.py
 
 Este é o "banco de dados" do sistema. Ele não toma decisões, apenas organiza e fornece acesso às informações.
 
@@ -45,7 +45,7 @@ Este é o "banco de dados" do sistema. Ele não toma decisões, apenas organiza 
 
 - Aplica o princípio do encapsulamento, fornecendo funções como obter_estado() para que os outros módulos leiam os dados com segurança.
 
-2. analise_energia.py
+2. Arquivo -> analise_energia.py
 
 Responsável por comparar a geração atual com a demanda e o nível das baterias.
 
@@ -55,7 +55,7 @@ Responsável por comparar a geração atual com a demanda e o nível das bateria
 
 - Utiliza funções puras para os cálculos lógicos, separando-os da formatação visual dos relatórios.
 
-3. previsao.py
+3. Arquivo -> previsao.py
 
 Estima o cenário futuro para embasar decisões.
 
@@ -65,7 +65,7 @@ Estima o cenário futuro para embasar decisões.
 
 - Fornece estimativas cruzando os dados atuais (vento atual, hora atual) com o modelo treinado, entregando previsões com métrica de confiabilidade (R²).
 
-4. decisoes.py
+4. Arquivo -> decisoes.py
 
 Recebe os diagnósticos e decide o que deve ser feito.
 
@@ -77,7 +77,7 @@ Recebe os diagnósticos e decide o que deve ser feito.
 
 - Se necessário, percorre a hierarquia de sistemas e lista exatamente quais subsistemas devem ser desligados (e o quanto isso economizará em kW), poupando sempre a prioridade 1.
 
-5. main.py
+5. Arquivo -> main.py
 
 O ponto de entrada do programa. Ele não possui lógica de negócio complexa, atuando como um maestro que chama os outros módulos na ordem correta.
 
@@ -127,7 +127,7 @@ O resultado gerado pelo motor será semelhante a este:
 
     Previsão     : ADVERSO
 
-  [AÇÕES GERADAS — 2 regra(s) disparada(s)]
+  [Ações geradas - 2 regra(s) disparada(s)]
 
     [1] Nível: CRITICO
         Motivo : Energia crítica (15.0%) AND consumo alto (75 kW) AND previsão adversa.
