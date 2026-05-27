@@ -93,7 +93,7 @@ Para ilustrar o funcionamento, vamos analisar um cenário de Crise Energética s
 
 O sistema recebe uma atualização abrupta no estado da colônia, indicando uma tempestade que bloqueia o sol e reduz os ventos, combinada com baterias quase vazias:
 
-{
+
     "energia_reserva_kwh": 15,       # Bateria crítica (15% da capacidade)
 
     "geracao_solar_kw": 5,           # Geração muito baixa
@@ -103,7 +103,7 @@ O sistema recebe uma atualização abrupta no estado da colônia, indicando uma 
     "consumo_total_kw": 75,          # Consumo altíssimo
 
     "previsao_clima": "adverso"      # Clima ruim
-}
+
 
 ## A Saída (Processamento e Decisão)
 
@@ -148,7 +148,7 @@ O resultado gerado pelo motor será semelhante a este:
     ├─ comunicacao               P2     5 kW  —  Sistemas de comunicação interna e externa
 
 
-  [Sistemas protegidos] [Nunca desligar]
+  [Sistemas protegidos - Nunca desligar]
 
     oxigenio                  15 kW mantidos
 
