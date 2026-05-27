@@ -1,6 +1,6 @@
-# Sistema Integrado de Gerenciamento — Colônia Espacial
+# Sistema Integrado de Gerenciamento da Colônia
 ## Visão Geral
-- Este projeto é um simulador de gerenciamento de recursos para uma colônia espacial. 
+- Este projeto é um simulador de gerenciamento de recursos. 
 
 - O sistema monitora sensores em tempo real, analisa o balanço energético (geração vs consumo), prevê o comportamento futuro do clima e do consumo usando modelos matemáticos, e toma decisões automatizadas para garantir a sobrevivência da colônia, priorizando sistemas de suporte à vida em casos de emergência.
 
@@ -95,26 +95,36 @@ O sistema recebe uma atualização abrupta no estado da colônia, indicando uma 
 
 {
     "energia_reserva_kwh": 15,       # Bateria crítica (15% da capacidade)
+
     "geracao_solar_kw": 5,           # Geração muito baixa
+
     "geracao_eolica_kw": 3,          # Quase sem vento
+    
     "consumo_total_kw": 75,          # Consumo altíssimo
+
     "previsao_clima": "adverso"      # Clima ruim
 }
 
 ## A Saída (Processamento e Decisão)
 
 Após rodar o ciclo de análise, o terminal exibirá um relatório completo detalhando a crise e as ações mitigadoras. 
+
 O resultado gerado pelo motor será semelhante a este:
 
-============================================================
-  MÓDULO DE TOMADA DE DECISÃO — MOTOR DE REGRAS
-============================================================
 
-  [ENTRADA PROCESSADA]
+  Módulo de tomada de decisão
+
+
+  [Entrada processasda]
+
     Reserva      : 15.0% (CRÍTICO)
+
     Consumo      : 75 kW
+
     Saldo        : -67.00 kW
+
     Situação     : CRÍTICO
+
     Previsão     : ADVERSO
 
   [AÇÕES GERADAS — 2 regra(s) disparada(s)]
@@ -127,16 +137,21 @@ O resultado gerado pelo motor será semelhante a este:
         Motivo : Déficit de 67.0 kW AND bateria baixa (15.0%).
         Ação   : ALERTA: reduzir consumo. Desligar sistemas de prioridade 3. Monitorar reserva a cada 15 minutos.
 
-  [SISTEMAS SUGERIDOS PARA DESLIGAMENTO]
-    (prioridade ≥ 2 — economia potencial: 37 kW)
-    ├─ agua                      P2    12 kW  —  Bombeamento e purificação de água
-    ├─ iluminacao                P2    10 kW  —  Iluminação geral dos módulos
-    ├─ pesquisa_nao_urgente      P3     6 kW  —  Laboratórios de pesquisa não emergencial
-    ├─ comunicacao               P2     5 kW  —  Sistemas de comunicação interna e externa
-    ├─ entretenimento            P3     4 kW  —  Centros de entretenimento e lazer
+  [Sistemas sugeridos para desligamento]
 
-  [SISTEMAS PROTEGIDOS — NUNCA DESLIGAR]
-    ✔ oxigenio                  15 kW mantidos
-    ✔ pressao                   10 kW mantidos
-    ✔ temperatura                8 kW mantidos
-============================================================
+    (prioridade ≥ 2 — economia potencial: 37 kW)
+
+    ├─ agua                      P2    12 kW  —  Bombeamento e purificação de água
+
+    ├─ iluminacao                P2    10 kW  —  Iluminação geral dos módulos
+
+    ├─ comunicacao               P2     5 kW  —  Sistemas de comunicação interna e externa
+
+
+  [Sistemas protegidos] [Nunca desligar]
+
+    oxigenio                  15 kW mantidos
+
+    pressao                   10 kW mantidos
+
+    temperatura                8 kW mantidos
